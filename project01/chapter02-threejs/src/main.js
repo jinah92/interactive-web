@@ -47,6 +47,40 @@ capsule.castShadow = true;
 capsule.receiveShadow = true;
 scene.add(capsule);
 
+const cylinderGeometry = new THREE.CylinderGeometry(1, 1, 2);
+const cylinderMaterial = new THREE.MeshStandardMaterial({ color: 0x00ff00 });
+const cylinder = new THREE.Mesh(cylinderGeometry, cylinderMaterial);
+cylinder.position.set(-3, 1, 0);
+cylinder.castShadow = true;
+cylinder.receiveShadow = true;
+scene.add(cylinder);
+
+const torusGeometry = new THREE.TorusGeometry(0.5, 0.1, 16, 100);
+const torusMaterial = new THREE.MeshStandardMaterial({ color: 0x0000ff });
+const torus = new THREE.Mesh(torusGeometry, torusMaterial);
+torus.position.set(0, 0.5, 1);
+torus.castShadow = true;
+torus.receiveShadow = true;
+scene.add(torus);
+
+const starShape = new THREE.Shape();
+starShape.moveTo(0, 1);
+starShape.lineTo(0.2, 0.2);
+starShape.lineTo(1, 0.2);
+starShape.lineTo(0.4, -0.1);
+starShape.lineTo(0.6, -1);
+starShape.lineTo(0, -0.5);
+starShape.lineTo(-0.6, -1);
+starShape.lineTo(-0.4, -0.1);
+starShape.lineTo(-1, 0.2);
+starShape.lineTo(-0.2, 0.2);
+
+const shapeGeometry = new THREE.ShapeGeometry(starShape);
+const shapeMaterial = new THREE.MeshStandardMaterial({ color: 0xff00ff });
+const shape = new THREE.Mesh(shapeGeometry, shapeMaterial);
+shape.position.set(0, 1, 2);
+scene.add(shape);
+
 const orbitControls = new OrbitControls(camera, renderer.domElement); // OrbitControls를 사용하면 마우스로 카메라를 조작할 수 있음
 orbitControls.update();
 
