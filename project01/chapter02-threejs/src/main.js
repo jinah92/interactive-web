@@ -124,6 +124,28 @@ torusKnotDepthMesh.receiveShadow = true;
 torusKnotDepthMesh.position.set(4, 1, 0);
 scene.add(torusKnotDepthMesh);
 
+const textureLoader = new THREE.TextureLoader();
+// textureLoader.load("/threejs.webp", (texture) => {
+//   const textureBoxGeometry = new THREE.BoxGeometry(1, 1, 1);
+//   const textureBoxMaterial = new THREE.MeshStandardMaterial({ map: texture });
+//   const textureBox = new THREE.Mesh(textureBoxGeometry, textureBoxMaterial);
+
+//   textureBox.castShadow = true;
+//   textureBox.receiveShadow = true;
+//   textureBox.position.set(0, 0.5, 2);
+//   scene.add(textureBox);
+// });
+
+const texture = await textureLoader.loadAsync("/threejs.webp");
+const textureBoxGeometry = new THREE.BoxGeometry(1, 1, 1);
+const textureBoxMaterial = new THREE.MeshStandardMaterial({ map: texture });
+const textureMesh = new THREE.Mesh(textureBoxGeometry, textureBoxMaterial);
+
+textureMesh.castShadow = true;
+textureMesh.receiveShadow = true;
+textureMesh.position.set(0, 0.5, 2);
+scene.add(textureMesh);
+
 // const geometry = new THREE.BoxGeometry(1, 1, 1); // 가로, 세로, 높이가 1인 box
 // const material = new THREE.MeshStandardMaterial({ color: "red" });
 // const mesh = new THREE.Mesh(geometry, material);
@@ -237,6 +259,7 @@ window.addEventListener("resize", () => {
 const render = () => {
   renderer.render(scene, camera);
   requestAnimationFrame(render);
+  textureMesh.rotation.y += 0.01;
 };
 
 render();
