@@ -4,6 +4,11 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
 const renderer = new THREE.WebGLRenderer({ antialias: true }); // antialias: true를 설정하면 렌더링 결과가 더 부드러워짐
 renderer.shadowMap.enabled = true; // shadowMap을 사용하면 그림자를 표현할 수 있음
+
+renderer.shadowMap.type = THREE.BasicShadowMap; // 품질이 가장 낮은 shadowMap 타입 (성능 우수)
+renderer.shadowMap.type = THREE.PCFShadowMap; // 품질이 중간 shadowMap 타입 (성능 중간)
+renderer.shadowMap.type = THREE.PCFSoftShadowMap; // 품질이 높은 shadowMap 타입 (성능 낮음)
+
 renderer.setSize(window.innerWidth, window.innerHeight); // 렌더러의 크기를 브라우저 크기에 맞게 설정
 document.body.appendChild(renderer.domElement);
 
@@ -29,72 +34,37 @@ floor.castShadow = true;
 scene.add(floor);
 
 const boxGeometry = new THREE.BoxGeometry(1, 1, 1);
-const boxMaterial = new THREE.MeshStandardMaterial({ color: 0xffffff });
+const boxMaterial = new THREE.MeshStandardMaterial({ color: 0xffff00 });
 const boxMesh = new THREE.Mesh(boxGeometry, boxMaterial);
 boxMesh.castShadow = true;
 boxMesh.receiveShadow = true;
 boxMesh.position.y = 0.5;
 scene.add(boxMesh);
 
-// ambient light
-
-// const ambientLight = new THREE.AmbientLight(0xffffff, 5);
-// scene.add(ambientLight);
-
 // directional light
+const directionalLight = new THREE.DirectionalLight(0xffffff, 5);
+directionalLight.castShadow = true;
+directionalLight.position.set(3, 4, 5);
+directionalLight.lookAt(0, 0, 0);
+directionalLight.shadow.mapSize.width = 4096; // 그림자 너비
+directionalLight.shadow.mapSize.height = 4096; // 그림자 높이
 
-// const directionalLight = new THREE.DirectionalLight(0xffffff, 5);
-// directionalLight.castShadow = true;
-// directionalLight.position.set(3, 4, 5);
-// directionalLight.lookAt(0, 0, 0);
-// scene.add(directionalLight);
-// const directionalLightHelper = new THREE.DirectionalLightHelper(
-//   directionalLight,
-//   1
-// );
-// scene.add(directionalLightHelper);
+// 그림자 범위 제어 (top, bottom, left, right)
+directionalLight.shadow.camera.top = 2;
+directionalLight.shadow.camera.bottom = -2;
+directionalLight.shadow.camera.left = -2;
+directionalLight.shadow.camera.right = 2;
 
-// hemisphere light
+// 그림자 거리 제어 (near, far)
+directionalLight.shadow.camera.near = 0.1;
+directionalLight.shadow.camera.far = 100;
 
-// const hemisphereLight = new THREE.HemisphereLight(0xb4a912, 0x12f34f, 5);
-// hemisphereLight.position.set(0, 1, 0);
-// hemisphereLight.lookAt(0, 0, 0);
-// scene.add(hemisphereLight);
-
-// const hemisphereLightHelper = new THREE.HemisphereLightHelper(
-//   hemisphereLight,
-//   1
-// );
-// scene.add(hemisphereLightHelper);
-
-// point light
-
-// const pointLight = new THREE.PointLight(0xffffff, 5, 5, 4);
-// pointLight.castShadow = true;
-// pointLight.position.set(1, 1, 1);
-// scene.add(pointLight);
-// const pointLightHelper = new THREE.PointLightHelper(pointLight, 1);
-// scene.add(pointLightHelper);
-
-// rect area light
-
-// const rectAreaLight = new THREE.RectAreaLight(0xffffff, 5, 2, 2);
-// rectAreaLight.position.set(0, 1, 2);
-// scene.add(rectAreaLight);
-
-// spot light
-const targetObj = new THREE.Object3D();
-scene.add(targetObj);
-
-const spotLight = new THREE.SpotLight(0xffffff, 10, 100, Math.PI / 4, 1, 1);
-spotLight.castShadow = true;
-spotLight.position.set(0, 5, 0);
-spotLight.target = targetObj;
-spotLight.target.position.set(1, 0, 2);
-scene.add(spotLight);
-
-const spotLightHelper = new THREE.SpotLightHelper(spotLight);
-scene.add(spotLightHelper);
+scene.add(directionalLight);
+const directionalLightHelper = new THREE.DirectionalLightHelper(
+  directionalLight,
+  1
+);
+scene.add(directionalLightHelper);
 
 const orbitControls = new OrbitControls(camera, renderer.domElement); // OrbitControls를 사용하면 마우스로 카메라를 조작할 수 있음
 orbitControls.update();
