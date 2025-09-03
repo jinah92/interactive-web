@@ -21,7 +21,6 @@ camera.position.z = 8; // 카메라의 위치를 mesh 위치로부터 5만큼 �
 const floorGeometry = new THREE.PlaneGeometry(20, 20);
 const floorMaterial = new THREE.MeshStandardMaterial({
   color: 0xbbbbbb,
-  side: THREE.DoubleSide,
 });
 const floor = new THREE.Mesh(floorGeometry, floorMaterial);
 floor.rotation.x = -Math.PI / 2; // 플로어의 회전을 조절하여 플로어가 바닥이 되도록 설정
@@ -57,16 +56,45 @@ scene.add(boxMesh);
 
 // hemisphere light
 
-const hemisphereLight = new THREE.HemisphereLight(0xb4a912, 0x12f34f, 5);
-hemisphereLight.position.set(0, 1, 0);
-hemisphereLight.lookAt(0, 0, 0);
-scene.add(hemisphereLight);
+// const hemisphereLight = new THREE.HemisphereLight(0xb4a912, 0x12f34f, 5);
+// hemisphereLight.position.set(0, 1, 0);
+// hemisphereLight.lookAt(0, 0, 0);
+// scene.add(hemisphereLight);
 
-const hemisphereLightHelper = new THREE.HemisphereLightHelper(
-  hemisphereLight,
-  1
-);
-scene.add(hemisphereLightHelper);
+// const hemisphereLightHelper = new THREE.HemisphereLightHelper(
+//   hemisphereLight,
+//   1
+// );
+// scene.add(hemisphereLightHelper);
+
+// point light
+
+// const pointLight = new THREE.PointLight(0xffffff, 5, 5, 4);
+// pointLight.castShadow = true;
+// pointLight.position.set(1, 1, 1);
+// scene.add(pointLight);
+// const pointLightHelper = new THREE.PointLightHelper(pointLight, 1);
+// scene.add(pointLightHelper);
+
+// rect area light
+
+// const rectAreaLight = new THREE.RectAreaLight(0xffffff, 5, 2, 2);
+// rectAreaLight.position.set(0, 1, 2);
+// scene.add(rectAreaLight);
+
+// spot light
+const targetObj = new THREE.Object3D();
+scene.add(targetObj);
+
+const spotLight = new THREE.SpotLight(0xffffff, 10, 100, Math.PI / 4, 1, 1);
+spotLight.castShadow = true;
+spotLight.position.set(0, 5, 0);
+spotLight.target = targetObj;
+spotLight.target.position.set(1, 0, 2);
+scene.add(spotLight);
+
+const spotLightHelper = new THREE.SpotLightHelper(spotLight);
+scene.add(spotLightHelper);
 
 const orbitControls = new OrbitControls(camera, renderer.domElement); // OrbitControls를 사용하면 마우스로 카메라를 조작할 수 있음
 orbitControls.update();
