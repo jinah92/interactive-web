@@ -36,6 +36,7 @@ const floor = new THREE.Mesh(floorGeometry, floorMaterial);
 floor.rotation.x = -Math.PI / 2; // 플로어의 회전을 조절하여 플로어가 바닥이 되도록 설정
 floor.receiveShadow = true;
 floor.castShadow = true;
+floor.name = "FLOOR";
 scene.add(floor);
 
 const boxGeometry = new THREE.BoxGeometry(1, 1, 1);
@@ -65,11 +66,6 @@ directionalLight.shadow.camera.near = 0.1;
 directionalLight.shadow.camera.far = 100;
 
 scene.add(directionalLight);
-const directionalLightHelper = new THREE.DirectionalLightHelper(
-  directionalLight,
-  1
-);
-// scene.add(directionalLightHelper);
 
 const gltfLoader = new GLTFLoader();
 const gltf = await gltfLoader.loadAsync("/dancer.glb");
@@ -90,19 +86,33 @@ scene.add(character);
 const mixer = new THREE.AnimationMixer(character);
 const action = mixer.clipAction(animationClips[3]);
 action.setLoop(THREE.LoopPingPong); // LoopPingPong : 좌우로 왔다갔다 함
-// action.setDuration(10); // 10초 동안 실행
-// action.setEffectiveTimeScale(2); // 애니메이션 속도 제어 (2배 빠르게 실행)
-action.setEffectiveWeight(0.5); // 액션이 분명히 적용되도록 함
 action.play();
 
-setTimeout(() => {
-  mixer.clipAction(animationClips[3]).paused = true;
-}, 5000);
+// setTimeout(() => {
+//   mixer.clipAction(animationClips[3]).paused = true;
+// }, 5000);
 
 // OrbitControls
 const orbitControls = new OrbitControls(camera, renderer.domElement); // OrbitControls를 사용하면 마우스로 카메라를 조작할 수 있음
 orbitControls.enableDamping = true;
 orbitControls.dampingFactor = 0.03;
+
+const newPosition = new THREE.Vector3(0, 1, 0);
+const rayCaster = new THREE.Raycaster();
+
+renderer.domElement.addEventListener("pointerdown", (e) => {
+  const x = (e.clientX / window.innerWidth) * 2 - 1;
+  const y = -((e.clientY / window.innerHeight) * 2 - 1);
+
+  rayCaster.setFromCamera(new THREE.Vector2(x, y), camera);
+  const intersects = rayCaster.intersectObjects(scene.children); // 캐릭터와 충돌한 객체를 반환
+  // console.log(intersects);
+
+  const intersectFloor = intersects.find((i) => i.object.name === "FLOOR");
+  console.log("intersectFloor", intersectFloor);
+  newPosition.copy(intersectFloor.point);
+  newPosition.y = 1;
+});
 
 window.addEventListener("resize", () => {
   renderer.setSize(window.innerWidth, window.innerHeight);
@@ -112,13 +122,30 @@ window.addEventListener("resize", () => {
 });
 
 const clock = new THREE.Clock();
+const targetVector = new THREE.Vector3();
+
 const render = () => {
+  character.lookAt(newPosition);
+  targetVector
+    .subVectors(newPosition, character.position)
+    .normalize()
+    .multiplyScalar(0.01);
+
+  if (
+    Math.abs(character.position.x - newPosition.x) >= 1 ||
+    Math.abs(character.position.z - newPosition.z) >= 1
+  ) {
+    character.position.x += targetVector.x;
+    character.position.z += targetVector.z;
+    action.stop();
+  }
   renderer.render(scene, camera);
   requestAnimationFrame(render);
   orbitControls.update();
   if (mixer) {
     mixer.update(clock.getDelta());
   }
+  action.play();
 };
 
 render();
