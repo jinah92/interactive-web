@@ -1,8 +1,16 @@
-import { useGLTF } from "@react-three/drei";
-import { useEffect } from "react";
+import { useAnimations, useGLTF } from "@react-three/drei";
+import { useFrame, useThree } from "@react-three/fiber";
+import { useEffect, useRef } from "react";
 
 export const GlbModel = () => {
-  const { scene } = useGLTF("/dancer.glb");
+  const three = useThree();
+  console.log(three);
+
+  const { scene, animations } = useGLTF("/dancer.glb");
+  const ref = useRef(null);
+
+  const { actions } = useAnimations(animations, ref);
+
   useEffect(() => {
     scene.traverse((obj) => {
       if (obj.isMesh) {
@@ -10,7 +18,12 @@ export const GlbModel = () => {
         obj.receiveShadow = true;
       }
     });
-  }, [scene]);
+    actions["wave"].play();
+  }, [scene, actions]);
 
-  return <primitive scale={0.01} position-y={0.8} object={scene} />;
+  useFrame((state, delta) => {
+    // ref.current.rotation.y += 0.02;
+  });
+
+  return <primitive ref={ref} scale={0.01} position-y={0.8} object={scene} />;
 };
