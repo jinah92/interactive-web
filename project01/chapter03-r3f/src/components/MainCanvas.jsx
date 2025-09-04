@@ -3,12 +3,15 @@ import { Color } from "three";
 import { OrbitControls } from "@react-three/drei";
 import { Meshs } from "./Meshs";
 import { Lights } from "./Lights";
+import * as THREE from "three";
 
 export const MainCanvas = () => {
   return (
     <Canvas
       gl={{ antialias: true }}
-      shadows={"soft"}
+      //   shadows={"soft"}
+      //   shadows={{ enabled: true, type: THREE.PCFSoftShadowMap }}
+      shadows
       camera={{
         fov: 60,
         aspect: window.innerWidth / window.innerHeight,

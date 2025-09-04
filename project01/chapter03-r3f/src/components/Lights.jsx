@@ -10,7 +10,7 @@ export const Lights = () => {
   //   useHelper(lightRef, THREE.DirectionalLightHelper, 3, 0xffff00);
   //   useHelper(lightRef, THREE.PointLightHelper, 1, 0xffff00);
   //   useHelper(lightRef, THREE.HemisphereLightHelper, 1, 0xffffff);
-  useHelper(lightRef, THREE.SpotLightHelper, 1, 0xffffff);
+  //   useHelper(lightRef, THREE.SpotLightHelper, 1, 0xffffff);
 
   useEffect(() => {
     if (targetRef.current) {
@@ -21,7 +21,7 @@ export const Lights = () => {
   return (
     <>
       {/* <ambientLight args={[0xffffff, 10]} /> */}
-      {/* <directionalLight
+      <directionalLight
         ref={lightRef}
         args={[0xffffff, 5]}
         position={[4, 4, 4]}
@@ -31,10 +31,10 @@ export const Lights = () => {
         shadow-camera-bottom={-25}
         shadow-camera-near={0.1}
         shadow-camera-far={1000}
-        shadow-mapSize-width={4096}
-        shadow-mapSize-height={4096}
+        shadow-mapSize-width={512} // 수치가 낮을수록 낮은 퀄리티의 그림자 생성
+        shadow-mapSize-height={512}
         castShadow
-      /> */}
+      />
       {/* <pointLight
         ref={lightRef}
         args={[0xffffff, 10, 10, 1]}
@@ -57,7 +57,7 @@ export const Lights = () => {
         castShadow
         position={[3, 3, 3]}
       /> */}
-      <SpotLight
+      {/* <SpotLight
         color={0xffffff}
         intensity={10}
         distance={100}
@@ -73,7 +73,7 @@ export const Lights = () => {
         debug
         position={[3, 3, 3]}
         target={target}
-      />
+      /> */}
     </>
   );
 };
