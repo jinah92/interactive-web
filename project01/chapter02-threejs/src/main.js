@@ -72,16 +72,10 @@ const directionalLightHelper = new THREE.DirectionalLightHelper(
 // scene.add(directionalLightHelper);
 
 const gltfLoader = new GLTFLoader();
-// gltfLoader.load("/dancer.glb", (data) => {
-//   console.log(data);
-//   const character = data.scene;
-//   character.position.y = 0.8;
-//   character.scale.set(0.01, 0.01, 0.01);
-//   scene.add(character);
-// });
-
 const gltf = await gltfLoader.loadAsync("/dancer.glb");
 const character = gltf.scene;
+const animationClips = gltf.animations;
+
 character.position.y = 0.8;
 character.scale.set(0.01, 0.01, 0.01);
 // 캐릭터의 모든 메시에 그림자 효과 적용
@@ -92,6 +86,18 @@ character.traverse((obj) => {
   }
 });
 scene.add(character);
+
+const mixer = new THREE.AnimationMixer(character);
+const action = mixer.clipAction(animationClips[3]);
+action.setLoop(THREE.LoopPingPong); // LoopPingPong : 좌우로 왔다갔다 함
+// action.setDuration(10); // 10초 동안 실행
+// action.setEffectiveTimeScale(2); // 애니메이션 속도 제어 (2배 빠르게 실행)
+action.setEffectiveWeight(0.5); // 액션이 분명히 적용되도록 함
+action.play();
+
+setTimeout(() => {
+  mixer.clipAction(animationClips[3]).paused = true;
+}, 5000);
 
 // OrbitControls
 const orbitControls = new OrbitControls(camera, renderer.domElement); // OrbitControls를 사용하면 마우스로 카메라를 조작할 수 있음
@@ -105,10 +111,14 @@ window.addEventListener("resize", () => {
   renderer.render(scene, camera);
 });
 
+const clock = new THREE.Clock();
 const render = () => {
   renderer.render(scene, camera);
   requestAnimationFrame(render);
   orbitControls.update();
+  if (mixer) {
+    mixer.update(clock.getDelta());
+  }
 };
 
 render();
