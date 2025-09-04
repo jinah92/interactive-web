@@ -3,6 +3,7 @@ import { Color } from "three";
 import { Meshs } from "./Meshs";
 import { Lights } from "./Lights";
 import { Controls } from "./Controls";
+import { GlbModel } from "./GlbModel";
 
 export const MainCanvas = () => {
   return (
@@ -23,6 +24,7 @@ export const MainCanvas = () => {
       <Controls />
       <Lights />
       <Meshs />
+      <GlbModel />
     </Canvas>
   );
 };

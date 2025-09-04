@@ -9,17 +9,7 @@ import {
 export const Controls = () => {
   return (
     <>
-      {/* <OrbitControls
-        enableDamping
-        dampingFactor={0.03}
-        enableZoom
-        autoRotate
-        autoRotateSpeed={1}
-        maxPolarAngle={Math.PI / 2}
-        minPolarAngle={Math.PI / 4}
-        maxAzimuthAngle={Math.PI / 2}
-        minAzimuthAngle={-Math.PI / 2}
-      /> */}
+      <OrbitControls />
       {/* <FlyControls
         movementSpeed={1}
         rollSpeed={Math.PI / 20}
@@ -31,7 +21,7 @@ export const Controls = () => {
         lookVertical={false}
       /> */}
       {/* <PointerLockControls /> */}
-      <TrackballControls
+      {/* <TrackballControls
         rotateSpeed={2}
         zoomSpeed={1.5}
         panSpeed={0.5}
@@ -40,7 +30,7 @@ export const Controls = () => {
         noPan={false}
         staticMoving={false}
         dynamicDampingFactor={0.05}
-      />
+      /> */}
     </>
   );
 };
