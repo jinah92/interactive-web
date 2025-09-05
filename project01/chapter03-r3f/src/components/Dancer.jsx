@@ -22,9 +22,9 @@ export function Dancer(props) {
 
   useEffect(() => {
     actions[currentAnimation].fadeIn(0.5).play();
-    return () => {
-      actions[currentAnimation].fadeOut(0.5).stop();
-    };
+    // return () => {
+    //   actions[currentAnimation].fadeOut(0.5).stop();
+    // };
   }, [actions, currentAnimation]);
 
   return (

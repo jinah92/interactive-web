@@ -3,8 +3,8 @@ import { Color } from "three";
 import { Meshs } from "./Meshs";
 import { Lights } from "./Lights";
 import { Controls } from "./Controls";
-import { GlbModel } from "./GlbModel";
 import { Dancer } from "./Dancer";
+import { PostProcessor } from "./PostProcessor";
 
 export const MainCanvas = () => {
   return (
@@ -26,7 +26,9 @@ export const MainCanvas = () => {
       <Lights />
       <Meshs />
       {/* <GlbModel /> */}
-      <Dancer />
+      <PostProcessor>
+        <Dancer />
+      </PostProcessor>
     </Canvas>
   );
 };
