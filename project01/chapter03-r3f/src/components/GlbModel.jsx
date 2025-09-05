@@ -9,15 +9,6 @@ export const GlbModel = () => {
   const { actions } = useAnimations(animations, ref);
 
   useEffect(() => {
-    scene.traverse((obj) => {
-      if (obj.isMesh) {
-        obj.castShadow = true;
-        obj.receiveShadow = true;
-      }
-    });
-  }, [scene, actions]);
-
-  useEffect(() => {
     actions[currentAnimation].fadeIn(0.5).play();
 
     return () => {
