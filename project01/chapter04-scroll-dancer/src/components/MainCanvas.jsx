@@ -2,6 +2,8 @@ import { Canvas } from "@react-three/fiber";
 import { ScrollControls } from "@react-three/drei";
 import * as THREE from "three";
 import { Dancer } from "./Dancer";
+import { Suspense } from "react";
+import { Loader } from "./Lodaer";
 
 export const MainCanvas = () => {
   const aspectRatio = window.innerWidth / window.innerHeight;
@@ -21,7 +23,9 @@ export const MainCanvas = () => {
       scene={{ background: new THREE.Color(0x000000) }}
     >
       <ScrollControls pages={8} damping={0.25}>
-        <Dancer />
+        <Suspense fallback={<Loader />}>
+          <Dancer />
+        </Suspense>
       </ScrollControls>
     </Canvas>
   );
