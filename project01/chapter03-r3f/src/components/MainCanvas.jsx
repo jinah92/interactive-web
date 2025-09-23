@@ -5,6 +5,7 @@ import { Lights } from "./Lights";
 import { Controls } from "./Controls";
 import { Dancer } from "./Dancer";
 import { PostProcessor } from "./PostProcessor";
+import { Physics } from "@react-three/cannon";
 
 export const MainCanvas = () => {
   return (
@@ -22,13 +23,18 @@ export const MainCanvas = () => {
       }}
       scene={{ background: new Color(0x000000) }}
     >
+      <Physics
+        gravity={[0, -9, 0]}
+        defaultContactMaterial={{ restitution: 1, friction: 0.5 }}
+      >
+        <Lights />
+        <Meshs />
+      </Physics>
       <Controls />
-      <Lights />
-      <Meshs />
       {/* <GlbModel /> */}
-      <PostProcessor>
+      {/* <PostProcessor>
         <Dancer />
-      </PostProcessor>
+      </PostProcessor> */}
     </Canvas>
   );
 };
