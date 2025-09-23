@@ -1,4 +1,5 @@
-import { useAnimations, useGLTF } from "@react-three/drei";
+import { useAnimations, useGLTF, useScroll } from "@react-three/drei";
+import { useFrame } from "@react-three/fiber";
 import { useEffect, useRef } from "react";
 
 export const Dancer = () => {
@@ -6,6 +7,9 @@ export const Dancer = () => {
   const { scene, animations } = useGLTF("/models/dancer.glb");
 
   const { actions } = useAnimations(animations, dancerRef);
+
+  const scroll = useScroll();
+  console.log(scroll);
 
   useEffect(() => {
     actions["wave"].play();

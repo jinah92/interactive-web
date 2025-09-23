@@ -1,5 +1,5 @@
 import { Canvas } from "@react-three/fiber";
-import { Box, OrbitControls } from "@react-three/drei";
+import { ScrollControls } from "@react-three/drei";
 import * as THREE from "three";
 import { Dancer } from "./Dancer";
 
@@ -20,8 +20,9 @@ export const MainCanvas = () => {
       }}
       scene={{ background: new THREE.Color(0x000000) }}
     >
-      <Dancer />
-      <OrbitControls />
+      <ScrollControls pages={8} damping={0.25}>
+        <Dancer />
+      </ScrollControls>
     </Canvas>
   );
 };
