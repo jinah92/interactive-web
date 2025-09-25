@@ -16,7 +16,9 @@ export const Dancer = () => {
 
   const scroll = useScroll();
 
-  useFrame(() => {});
+  useFrame(() => {
+    console.log(scroll.offset);
+  });
 
   useEffect(() => {
     if (!isEntered) return;
