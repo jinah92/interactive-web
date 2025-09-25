@@ -7,6 +7,8 @@ import { Loader } from "./Lodaer";
 import { useFrame, useThree } from "@react-three/fiber";
 import gsap from "gsap";
 
+let timeline;
+
 export const Dancer = () => {
   const three = useThree();
 
@@ -21,6 +23,9 @@ export const Dancer = () => {
 
   useFrame(() => {
     console.log(scroll.offset);
+
+    if (!isEntered) return;
+    timeline.seek(scroll.offset * timeline.duration());
   });
 
   useEffect(() => {
@@ -40,6 +45,21 @@ export const Dancer = () => {
 
     gsap.fromTo(three.camera.rotation, { z: Math.PI }, { duration: 2.5, z: 0 });
   }, [isEntered, three.camera.position, three.camera.rotation]);
+
+  useEffect(() => {
+    if (!isEntered) return;
+    if (!dancerRef.current) return;
+
+    timeline = gsap.timeline();
+    timeline.from(
+      dancerRef.current.rotation,
+      {
+        duration: 4,
+        y: -4 * Math.PI,
+      },
+      0.5
+    );
+  }, [isEntered]);
 
   if (isEntered) {
     return (
