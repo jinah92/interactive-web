@@ -1,0 +1,34 @@
+{
+  "recommendations": [
+    // JavaScript/TypeScript 지원
+    "ms-vscode.vscode-typescript-next",
+
+    // React 개발 지원
+    "bradlc.vscode-tailwindcss",
+    "formulahendry.auto-rename-tag",
+    "christian-kohler.path-intellisense",
+
+    // 코드 품질 및 포맷팅
+    "esbenp.prettier-vscode",
+    "dbaeumer.vscode-eslint",
+
+    // 자동완성 및 IntelliSense 향상
+    "visualstudioexptteam.vscodeintellicode",
+    "ms-vscode.vscode-json",
+
+    // 개발 생산성 향상
+    "ms-vscode.vscode-npm-script",
+    "christian-kohler.npm-intellisense",
+    "bradlc.vscode-tailwindcss",
+
+    // Git 지원
+    "eamodio.gitlens",
+
+    // 파일 아이콘 및 테마
+    "vscode-icons-team.vscode-icons",
+
+    // 추가 유용한 확장
+    "ms-vscode.vscode-emmet",
+    "formulahendry.auto-close-tag"
+  ]
+}
