@@ -2,19 +2,20 @@ import {
   Box,
   Circle,
   Points,
+  PositionalAudio,
   useAnimations,
   useGLTF,
   useScroll,
   useTexture,
 } from "@react-three/drei";
 
-import { useEffect, useMemo, useRef, useState } from "react";
-import { useRecoilValue } from "recoil";
-import { IsEnteredAtom } from "../stores";
-import { Loader } from "./Lodaer";
 import { useFrame, useThree } from "@react-three/fiber";
 import gsap from "gsap";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { useRecoilValue } from "recoil";
 import * as THREE from "three";
+import { IsEnteredAtom } from "../stores";
+import { Loader } from "./Lodaer";
 
 let timeline;
 const colors = {
@@ -322,6 +323,13 @@ export const Dancer = () => {
             alphaTest={0.001}
           />
         </Points>
+        <PositionalAudio
+          positions={[-24, 0, 0]}
+          autoplay
+          url="/audio/bgm.mp3"
+          distance={50}
+          loop
+        />
       </>
     );
   }
