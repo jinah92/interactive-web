@@ -1,12 +1,13 @@
-import { useRecoilValue } from "recoil";
-import { IsEnteredAtom } from "../../stores";
-import { useRef } from "react";
 import { Scroll, useScroll } from "@react-three/drei";
-import styled from "styled-components";
 import { useFrame } from "@react-three/fiber";
+import { useRef } from "react";
+import { useRecoilValue } from "recoil";
+import styled from "styled-components";
+import { IsEnteredAtom } from "../../stores";
 
 export const MovingDOM = () => {
   const isEntered = useRecoilValue(IsEnteredAtom);
+  const fixed = document.getElementById("fixed");
   const scroll = useScroll();
   const article01Ref = useRef(null);
   const article02Ref = useRef(null);
@@ -17,6 +18,7 @@ export const MovingDOM = () => {
   useFrame(() => {
     if (
       !isEntered ||
+      !fixed ||
       !article01Ref.current ||
       !article02Ref.current ||
       !article03Ref.current ||
@@ -30,6 +32,14 @@ export const MovingDOM = () => {
     article02Ref.current.style.opacity = `${1 - scroll.range(1 / 8, 1 / 8)}`;
     article03Ref.current.style.opacity = `${scroll.curve(2 / 8, 1 / 8)}`;
     article04Ref.current.style.opacity = `${scroll.curve(3 / 8, 1 / 8)}`;
+
+    if (scroll.visible(4 / 8, 3 / 8)) {
+      fixed.style.display = "flex";
+      fixed.style.opacity = `${scroll.curve(4 / 8, 3 / 8)}`;
+    } else {
+      fixed.style.display = "none";
+    }
+
     article08Ref.current.style.opacity = `${scroll.range(7 / 8, 1 / 8)}`;
   });
 
